@@ -28,11 +28,18 @@ app.get('/team/:tla/watch', (req, res) =>{
     
     const tlaTeam = req.params.tla;
     const dataTeam = JSON.parse(fs.readFileSync(`./data/teams/${tlaTeam}.json`));
+    const {area, name, crestUrl, address, website, founded, venue} = dataTeam;
     
     res.render('team',{
         layout: 'home',
         data: {
-            dataTeam,
+            country: area.name,
+            name,
+            image: crestUrl,
+            address,
+            website,
+            founded,
+            venue
         },  
     });
 });

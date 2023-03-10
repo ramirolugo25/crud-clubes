@@ -1,2 +1,15 @@
-<img src="{{data.dataTeam.crestUrl}}" alt="">
-
+<div id="team-container">
+    <div class="card" style="width: 18rem;">
+  <img src="{{data.image}}" class="card-img-top" alt="{{data.name}}-image">
+  <div class="card-body">
+    <h5 class="card-title" id="card-title">{{data.name}}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"> <b>Country:</b> {{data.country}}</li>
+    <li class="list-group-item"> <b>Address:</b> {{data.address}}</li>
+    <li class="list-group-item"> <b>Website:</b> {{data.website}}</li>
+    <li class="list-group-item"> <b>Founded:</b> {{data.founded}}</li>
+    <li class="list-group-item"> <b>Venue:</b> {{data.venue}}</li>
+  </ul>
+</div>
+</div>

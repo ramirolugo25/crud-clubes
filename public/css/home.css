@@ -4,7 +4,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: black;
+    background-color: rgb(32, 32, 32);
     color: white;
     gap: 10px;
 } 
@@ -21,3 +21,13 @@ body{
 #image-logo{
     width: 100px;
 }
+
+#card-title{
+    color: black;
+}
+/* #team-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} */

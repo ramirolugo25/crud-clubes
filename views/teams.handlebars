@@ -12,7 +12,7 @@
         <tbody>
             {{#each data.teams as |team|}}
             <tr class="table-dark text-center">
-                <td><img id="image-logo" src="{{team.crestUrl}}" alt=""></td>
+                <td><img id="image-logo" src="{{team.crestUrl}}" alt="{{team.name}}"></td>
                 <td>{{team.name}}</td>
                 <td> 
                     <a href='/team/{{team.tla}}/watch'>watch,</a>  
