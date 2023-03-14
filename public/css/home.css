@@ -9,6 +9,11 @@ body{
     gap: 10px;
 } 
 
+#first-container{
+    display: flex;
+    gap: 100px;
+}
+
 #table-container{
     width: 60%;
     
@@ -25,9 +30,11 @@ body{
 #card-title{
     color: black;
 }
-/* #team-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-} */
+
+#success-message{
+    color: rgb(10, 223, 10);
+}
+
+#error-message{
+    color: red;
+}
