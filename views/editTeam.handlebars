@@ -1,0 +1,46 @@
+
+<form action="/team/{{data.tla}}/edit" method="POST" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" name="name" value="{{data.name}}">
+    </div>
+
+    <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" name="country" value="{{data.country}}">
+    </div>
+    
+    <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <input type="text" class="form-control" name="address" value="{{data.address}}">
+    </div>
+
+    <div class="mb-3">
+        <label for="website" class="form-label">Website</label>
+        <input type="text" class="form-control" name="website" value="{{data.website}}">
+    </div>
+
+    <div class="mb-3">
+        <label for="founded" class="form-label">Founded</label>
+        <input type="text" class="form-control" name="founded" value="{{data.founded}}">
+    </div>
+
+    <div class="mb-3">
+        <label for="venue" class="form-label">Venue</label>
+        <input type="text" class="form-control" name="venue" value="{{data.venue}}">
+    </div>
+
+    <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <img src={{data.image}} alt="">
+        <input type="file" class="form-control" name="image">
+    </div>
+
+    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+</form>
+
+
+{{#if data.message}}
+<h5 id="success-message">{{data.message}}</h5>
+{{/if}}

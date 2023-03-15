@@ -10,9 +10,13 @@ const storage = multer.diskStorage({
         cb(null, './uploads/images')
     },
     filename: function (req, file, cb) {
-        const extension = file.originalname.split('.')[1];
-        const nameFile = req.body.name.split(' ').join('-');
-        cb(null,`${nameFile}-${Date.now()}.${extension}`);
+        
+        if(file){
+            const extension = file.originalname.split('.')[1];
+            const nameFile = req.body.name.split(' ').join('-');
+            cb(null,`${nameFile}-${Date.now()}.${extension}`);
+        }
+
     }
 });
 
@@ -29,6 +33,8 @@ const upload = multer({
         
     }
 });
+
+const editImageUpload = multer({storage: storage});
 
 const PORT = 8080;
 const app = express();
@@ -123,6 +129,74 @@ app.post('/team/new', upload.single('image'), (req, res) => {
     
 });
 
+app.get('/team/:tla/edit', (req, res) => {
+    const tlaTeam = req.params.tla;
+    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
+    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam );
+    const {area, name, crestUrl, address, website, founded, venue, tla} = dataTeam;
+    
+    res.render('editTeam',{
+        layout: 'home',
+        data: {
+            country: area.name,
+            name,
+            image: crestUrl,
+            address,
+            website,
+            founded,
+            venue,
+            tla,
+        },  
+    });
+});
+
+app.post('/team/:tla/edit', editImageUpload.single('image'), (req, res) => {
+    const {name, country, address, website, founded, venue} = req.body;
+    const tlaTeam = req.params.tla;
+
+    const dataTeams = JSON.parse(fs.readFileSync('data/teams.db.json'));
+    const dataTeam = dataTeams.find((d) => d.tla === tlaTeam);
+    const newDataTeams = dataTeams.filter((data) => data.tla !== tlaTeam);
+    
+    const currentTeamData = {
+        ...dataTeam,
+        name,
+        area : {
+            name : country,
+        },
+        address,
+        website,
+        founded,
+        venue,
+    };
+
+    if(req.file){
+        currentTeamData.crestUrl = `/images/${req.file.filename}`;
+
+        if(fs.existsSync(`uploads${dataTeam.crestUrl}`)){
+            fs.unlinkSync(`uploads${dataTeam.crestUrl}`);
+        }
+    }
+
+    newDataTeams.push(currentTeamData);
+
+    fs.writeFileSync('data/teams.db.json', JSON.stringify(newDataTeams));
+
+    res.render('editTeam', {
+        layout: 'home',
+        data: {
+            message : 'Success, the team has been loaded successfully',
+            name,
+            country : currentTeamData.area.name,
+            address,
+            website,
+            founded,
+            venue,
+            image : currentTeamData.crestUrl,
+        }
+    });
+
+});
 
 app.listen(PORT)
 console.log(`Listening in http://localhost:${PORT}`);
