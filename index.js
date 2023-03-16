@@ -198,5 +198,41 @@ app.post('/team/:tla/edit', editImageUpload.single('image'), (req, res) => {
 
 });
 
+app.get('/team/:tla/delete', (req, res) => {
+    const tlaTeam = req.params.tla;
+    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
+    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam );
+    const {area, name, crestUrl, address, website, founded, venue} = dataTeam;
+    
+    res.render('deleteTeam',{
+        layout: 'home',
+        data: {
+            country: area.name,
+            name,
+            image: crestUrl,
+            address,
+            website,
+            founded,
+            venue,
+            tla: tlaTeam,
+        },  
+    });
+});
+
+app.post('/team/:tla/delete', (req, res) => {
+    const tlaTeam = req.params.tla;
+    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
+    const dataTeam = dataTeams.find((d) => d.tla === tlaTeam);
+    const newDataTeams = dataTeams.filter((team) => team.tla !== tlaTeam);
+    
+    if(fs.existsSync(`uploads${dataTeam.crestUrl}`)){
+        fs.unlinkSync(`uploads${dataTeam.crestUrl}`);
+    }
+
+    fs.writeFileSync('data/teams.db.json', JSON.stringify(newDataTeams));
+
+    res.redirect('/');
+});
+
 app.listen(PORT)
 console.log(`Listening in http://localhost:${PORT}`);
