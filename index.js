@@ -78,6 +78,7 @@ app.get('/team/:tla/watch', (req, res) =>{
             website,
             founded,
             venue,
+            tla: tlaTeam,
         },  
     });
 });

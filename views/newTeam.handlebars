@@ -1,3 +1,4 @@
+<h1 style="color: rgb(25, 139, 201);">Add Team</h1>
 
 <form action="/team/new" method="POST" enctype="multipart/form-data">
 
@@ -44,12 +45,19 @@
     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
 </form>
 
+<div id="container-back-button">
+    <a href="/"><button type="button" class="btn btn-light">Back</button></a> 
+</div>
 
 
 {{#if data.message}}
-<h5 id="success-message">{{data.message}}</h5>
+<div class="alert alert-success" role="alert">
+  {{data.message}}
+</div>
 {{/if}}
 
 {{#if data.error}}
-<h5 id="error-message">{{data.error}}</h5>
+<div class="alert alert-danger" role="alert">
+  {{data.error}}
+</div>
 {{/if}}

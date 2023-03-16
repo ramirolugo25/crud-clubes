@@ -9,6 +9,18 @@ body{
     gap: 10px;
 } 
 
+#team-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#container-back-button{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
 #first-container{
     display: flex;
     gap: 100px;
@@ -31,10 +43,17 @@ body{
     color: black;
 }
 
-#success-message{
-    color: rgb(10, 223, 10);
+#container-buttons{
+    display: flex;
+    justify-content: space-around;
 }
 
-#error-message{
-    color: red;
+#editTeam-image{
+    width: 100px;
+}
+
+#container-editTeam-image{
+ display: flex;
+ justify-content: space-around;
+ align-items: center;
 }
