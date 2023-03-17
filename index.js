@@ -63,7 +63,6 @@ app.get('/', (req, res) => {
 
 app.get('/team/:tla/watch', (req, res) =>{
     
-    const apiKey = 'AIzaSyDjnxfs8eY6p4awMEaaQ-s_X0g7JADvN_4'; 
     const tlaTeam = req.params.tla;
     const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
     const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam );
@@ -79,8 +78,7 @@ app.get('/team/:tla/watch', (req, res) =>{
             website,
             founded,
             venue,
-            tla: tlaTeam,
-            apiKey,
+            tla: tlaTeam
         },  
     });
 });
