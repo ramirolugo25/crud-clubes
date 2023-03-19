@@ -10,11 +10,11 @@ const storage = multer.diskStorage({
         cb(null, './uploads/images')
     },
     filename: function (req, file, cb) {
-        
-        if(file){
+
+        if (file) {
             const extension = file.originalname.split('.')[1];
             const nameFile = req.body.name.split(' ').join('-');
-            cb(null,`${nameFile}-${Date.now()}.${extension}`);
+            cb(null, `${nameFile}-${Date.now()}.${extension}`);
         }
 
     }
@@ -22,19 +22,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    fileFilter: function(req, file, cb){
+    fileFilter: function (req, file, cb) {
         const tla = req.body.tla.toUpperCase();
         const dataTeams = JSON.parse(fs.readFileSync('data/teams.db.json'));
-        if (dataTeams.find( dataTeam => dataTeam.tla === tla)){
+        if (dataTeams.find(dataTeam => dataTeam.tla === tla)) {
             cb(null, false);
-        }else{
+        } else {
             cb(null, true);
         }
-        
+
     }
 });
 
-const editImageUpload = multer({storage: storage});
+const editImageUpload = multer({ storage: storage });
 
 const PORT = 8080;
 const app = express();
@@ -61,14 +61,28 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/team/:tla/watch', (req, res) =>{
-    
+app.post('/', (req, res) => {
+
+    const resetTeams = JSON.parse(fs.readFileSync('./data/teams.json'));
+    fs.writeFileSync('./data/teams.db.json', JSON.stringify(resetTeams));
+
+    const folderPath = './uploads/images';
+    const fileNames =  fs.readdirSync(folderPath);
+    for (const file of fileNames) {
+        fs.unlinkSync(`${folderPath}/${file}`);
+    };
+
+    res.redirect('/');
+});
+
+app.get('/team/:tla/watch', (req, res) => {
+
     const tlaTeam = req.params.tla;
-    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
-    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam );
-    const {area, name, crestUrl, address, website, founded, venue} = dataTeam;
-    
-    res.render('team',{
+    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`));
+    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam);
+    const { area, name, crestUrl, address, website, founded, venue } = dataTeam;
+
+    res.render('team', {
         layout: 'home',
         data: {
             country: area.name,
@@ -79,64 +93,64 @@ app.get('/team/:tla/watch', (req, res) =>{
             founded,
             venue,
             tla: tlaTeam
-        },  
+        },
     });
 });
 
 app.get('/team/new', (req, res) => {
 
-    res.render('newTeam',{
+    res.render('newTeam', {
         layout: 'home',
     });
 
 });
 
 app.post('/team/new', upload.single('image'), (req, res) => {
-    const {name, country, address, website, founded, venue} = req.body;
+    const { name, country, address, website, founded, venue } = req.body;
     const tla = req.body.tla.toUpperCase();
 
     const dataTeams = JSON.parse(fs.readFileSync('data/teams.db.json'));
-    if (dataTeams.find( dataTeam => dataTeam.tla === tla)){
+    if (dataTeams.find(dataTeam => dataTeam.tla === tla)) {
         res.render('newTeam', {
             layout: 'home',
             data: {
-                error : 'Could not load the team because the tla already exists',
+                error: 'Could not load the team because the tla already exists',
             }
         });
 
-    }else{
+    } else {
         const newTeam = {
             name,
             tla,
-            area:{
+            area: {
                 name: country
             },
             address,
             website,
             founded,
             venue,
-            crestUrl : `/images/${req.file.filename}`,
+            crestUrl: `/images/${req.file.filename}`,
         }
         dataTeams.push(newTeam);
         fs.writeFileSync('data/teams.db.json', JSON.stringify(dataTeams));
         res.render('newTeam', {
             layout: 'home',
             data: {
-                message : 'Success, the team has been loaded successfully',
+                message: 'Success, the team has been loaded successfully',
             }
         });
     }
-    
-    
+
+
 });
 
 app.get('/team/:tla/edit', (req, res) => {
     const tlaTeam = req.params.tla;
-    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
-    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam );
-    const {area, name, crestUrl, address, website, founded, venue, tla} = dataTeam;
-    
-    res.render('editTeam',{
+    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`));
+    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam);
+    const { area, name, crestUrl, address, website, founded, venue, tla } = dataTeam;
+
+    res.render('editTeam', {
         layout: 'home',
         data: {
             country: area.name,
@@ -147,23 +161,23 @@ app.get('/team/:tla/edit', (req, res) => {
             founded,
             venue,
             tla,
-        },  
+        },
     });
 });
 
 app.post('/team/:tla/edit', editImageUpload.single('image'), (req, res) => {
-    const {name, country, address, website, founded, venue} = req.body;
+    const { name, country, address, website, founded, venue } = req.body;
     const tlaTeam = req.params.tla;
 
     const dataTeams = JSON.parse(fs.readFileSync('data/teams.db.json'));
     const dataTeam = dataTeams.find((d) => d.tla === tlaTeam);
     const newDataTeams = dataTeams.filter((data) => data.tla !== tlaTeam);
-    
+
     const currentTeamData = {
         ...dataTeam,
         name,
-        area : {
-            name : country,
+        area: {
+            name: country,
         },
         address,
         website,
@@ -171,10 +185,10 @@ app.post('/team/:tla/edit', editImageUpload.single('image'), (req, res) => {
         venue,
     };
 
-    if(req.file){
+    if (req.file) {
         currentTeamData.crestUrl = `/images/${req.file.filename}`;
 
-        if(fs.existsSync(`uploads${dataTeam.crestUrl}`)){
+        if (fs.existsSync(`uploads${dataTeam.crestUrl}`)) {
             fs.unlinkSync(`uploads${dataTeam.crestUrl}`);
         }
     }
@@ -186,14 +200,14 @@ app.post('/team/:tla/edit', editImageUpload.single('image'), (req, res) => {
     res.render('editTeam', {
         layout: 'home',
         data: {
-            message : 'Success, the team has been loaded successfully',
+            message: 'Success, the team has been loaded successfully',
             name,
-            country : currentTeamData.area.name,
+            country: currentTeamData.area.name,
             address,
             website,
             founded,
             venue,
-            image : currentTeamData.crestUrl,
+            image: currentTeamData.crestUrl,
         }
     });
 
@@ -201,11 +215,11 @@ app.post('/team/:tla/edit', editImageUpload.single('image'), (req, res) => {
 
 app.get('/team/:tla/delete', (req, res) => {
     const tlaTeam = req.params.tla;
-    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
-    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam );
-    const {area, name, crestUrl, address, website, founded, venue} = dataTeam;
-    
-    res.render('deleteTeam',{
+    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`));
+    const dataTeam = dataTeams.find((dataTeam) => dataTeam.tla === tlaTeam);
+    const { area, name, crestUrl, address, website, founded, venue } = dataTeam;
+
+    res.render('deleteTeam', {
         layout: 'home',
         data: {
             country: area.name,
@@ -216,17 +230,17 @@ app.get('/team/:tla/delete', (req, res) => {
             founded,
             venue,
             tla: tlaTeam,
-        },  
+        },
     });
 });
 
 app.post('/team/:tla/delete', (req, res) => {
     const tlaTeam = req.params.tla;
-    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`)) ;
+    const dataTeams = JSON.parse(fs.readFileSync(`data/teams.db.json`));
     const dataTeam = dataTeams.find((d) => d.tla === tlaTeam);
     const newDataTeams = dataTeams.filter((team) => team.tla !== tlaTeam);
-    
-    if(fs.existsSync(`uploads${dataTeam.crestUrl}`)){
+
+    if (fs.existsSync(`uploads${dataTeam.crestUrl}`)) {
         fs.unlinkSync(`uploads${dataTeam.crestUrl}`);
     }
 
