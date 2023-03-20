@@ -1,28 +1,27 @@
-
 <div id="team-container">
-    <div class="card" style="width: 18rem;">
-  <img src="{{data.image}}" class="card-img-top" alt="{{data.name}}-image">
-  <div class="card-body">
-    <h5 class="card-title" id="card-title">{{data.name}}</h5>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"> <b>Country:</b> {{data.country}}</li>
-    <li class="list-group-item"> <b>Address:</b> {{data.address}}</li>
-    <li class="list-group-item"> <b>Website:</b> {{data.website}}</li>
-    <li class="list-group-item"> <b>Founded:</b> {{data.founded}}</li>
-    <li class="list-group-item"> <b>Venue:</b> {{data.venue}}</li>
-  </ul>
-</div>
-
-<form action="/team/{{data.tla}}/delete" method="POST">
-
-  <div class="alert alert-danger" role="alert">
-   Are you sure you want to delete the team?
+  <div class="card" style="width: 18rem;">
+    <img src="{{data.image}}" class="card-img-top" alt="{{data.name}}-image">
+    <div class="card-body">
+      <h5 class="card-title" id="card-title">{{data.name}}</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"> <b>Country:</b> {{data.country}}</li>
+      <li class="list-group-item"> <b>Address:</b> {{data.address}}</li>
+      <li class="list-group-item"> <b>Website:</b> {{data.website}}</li>
+      <li class="list-group-item"> <b>Founded:</b> {{data.founded}}</li>
+      <li class="list-group-item"> <b>Venue:</b> {{data.venue}}</li>
+    </ul>
   </div>
 
-  <button type="submit" class="btn btn-danger">Yes, delete</button>
-</form>
+  <form action="/team/{{data.tla}}/delete" method="POST">
 
-<div id="container-back-button">
-    <a href="/"><button type="button" class="btn btn-light">Back</button></a> 
-</div>
+    <div class="alert alert-danger" role="alert">
+      Are you sure you want to delete the team?
+    </div>
+
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+  </form>
+
+  <div id="container-back-button">
+    <a href="/"><button type="button" class="btn btn-light">Back</button></a>
+  </div>

@@ -4,7 +4,6 @@ const exphbs = require('express-handlebars');
 const multer = require('multer');
 
 
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/images')
@@ -67,12 +66,12 @@ app.post('/', (req, res) => {
     fs.writeFileSync('./data/teams.db.json', JSON.stringify(resetTeams));
 
     const folderPath = './uploads/images';
-    const fileNames =  fs.readdirSync(folderPath);
+    const fileNames = fs.readdirSync(folderPath);
     for (const file of fileNames) {
         fs.unlinkSync(`${folderPath}/${file}`);
     };
-    
-    res.redirect('/');    
+
+    res.redirect('/');
 });
 
 app.get('/team/:tla/watch', (req, res) => {

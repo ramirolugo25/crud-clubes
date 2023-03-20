@@ -11,7 +11,7 @@
         <label for="country" class="form-label">Country</label>
         <input type="text" class="form-control" name="country" value="{{data.country}}">
     </div>
-    
+
     <div class="mb-3">
         <label for="address" class="form-label">Address</label>
         <input type="text" class="form-control" name="address" value="{{data.address}}">
@@ -44,11 +44,11 @@
 </form>
 
 <div id="container-back-button">
-    <a href="/"><button type="button" class="btn btn-light">Back</button></a> 
+    <a href="/"><button type="button" class="btn btn-light">Back</button></a>
 </div>
 
 {{#if data.message}}
 <div class="alert alert-success" role="alert">
-  {{data.message}}
+    {{data.message}}
 </div>
 {{/if}}

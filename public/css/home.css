@@ -1,4 +1,4 @@
-body{
+body {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -7,53 +7,53 @@ body{
     background-color: rgb(32, 32, 32);
     color: white;
     gap: 10px;
-} 
+}
 
-#team-container{
+#team-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-#container-back-button{
+#container-back-button {
     display: flex;
     width: 100%;
     justify-content: space-around;
 }
 
-#first-container{
+#first-container {
     display: flex;
     gap: 100px;
 }
 
-#table-container{
+#table-container {
     width: 60%;
-    
+
 }
 
-#table{
+#table {
     border-radius: 5px;
 }
 
-#image-logo{
+#image-logo {
     width: 100px;
 }
 
-#card-title{
+#card-title {
     color: black;
 }
 
-#container-buttons{
+#container-buttons {
     display: flex;
     justify-content: space-around;
 }
 
-#editTeam-image{
+#editTeam-image {
     width: 100px;
 }
 
-#container-editTeam-image{
- display: flex;
- justify-content: space-around;
- align-items: center;
+#container-editTeam-image {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
