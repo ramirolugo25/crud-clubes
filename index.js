@@ -71,8 +71,8 @@ app.post('/', (req, res) => {
     for (const file of fileNames) {
         fs.unlinkSync(`${folderPath}/${file}`);
     };
-
-    res.redirect('/');
+    
+    res.redirect('/');    
 });
 
 app.get('/team/:tla/watch', (req, res) => {
