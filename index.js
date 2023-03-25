@@ -35,7 +35,7 @@ const upload = multer({
 
 const editImageUpload = multer({ storage: storage });
 
-const PORT = 8080;
+const PORT = process.env.PORT || 3000;
 const app = express();
 const hbs = exphbs.create();
 
